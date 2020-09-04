@@ -25,16 +25,16 @@ namespace Archimedes.Service.Ui
             services.AddControllers();
 
             //todo leave as example
-            //services.AddCors(options =>
-            //{
-            //    options.AddPolicy("AllowAny", x =>
-            //    {
-            //        x.WithOrigins("http://archimedes-ui.com:5103")//, "http://www.archimedes-ui.com:5103","http://localhost:5103")
-            //            .AllowAnyHeader()
-            //            .AllowAnyMethod()
-            //            .AllowCredentials();
-            //    });
-            //});
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAny", x =>
+                {
+                    x.WithOrigins("http://archimedes-ui.com:5103")//, "http://www.archimedes-ui.com:5103","http://localhost:4200")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials();
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,14 +45,12 @@ namespace Archimedes.Service.Ui
                 app.UseDeveloperExceptionPage();
             }
 
-
-
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
             //todo leave as example
-            //app.UseCors("AllowAny");
+            app.UseCors("AllowAny");
 
             app.UseAuthorization();
 
