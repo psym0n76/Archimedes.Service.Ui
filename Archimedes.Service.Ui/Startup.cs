@@ -24,12 +24,14 @@ namespace Archimedes.Service.Ui
             services.AddSignalR();
             services.AddControllers();
 
+            var config = Configuration.GetSection("AppSettings").Get<Config>();
+
             //todo leave as example
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowAny", x =>
                 {
-                    x.WithOrigins("http://archimedes-ui.com:5103","http://localhost:4200")
+                    x.WithOrigins("http://localhost:4200",config.UserInterfaceBaseUrl)
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .AllowCredentials();
