@@ -31,7 +31,7 @@ namespace Archimedes.Service.Ui
             {
                 options.AddPolicy("AllowAny", x =>
                 {
-                    x.WithOrigins("http://localhost:4200",config.UserInterfaceBaseUrl,"http://localhost:1103")
+                    x.WithOrigins("http://localhost:4200",config.UserInterfaceBaseUrl,"http://localhost:1103","http://archimedes.com:1103")
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .AllowCredentials();
