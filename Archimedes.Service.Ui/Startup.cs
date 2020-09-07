@@ -29,9 +29,11 @@ namespace Archimedes.Service.Ui
             //todo leave as example
             services.AddCors(options =>
             {
+
+                //added localhost4200: VSCode and 5103: Archimedes.Ui
                 options.AddPolicy("AllowAny", x =>
                 {
-                    x.WithOrigins("http://localhost:4200",config.UserInterfaceBaseUrl,"http://localhost:1103","http://archimedes.com:1103")
+                    x.WithOrigins("http://localhost:4200","http://localhost:5103")
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .AllowCredentials();
