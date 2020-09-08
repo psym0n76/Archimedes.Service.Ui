@@ -30,10 +30,12 @@ namespace Archimedes.Service.Ui
             services.AddCors(options =>
             {
 
+                //"http://localhost:5103","http://localhost:1103"
+
                 //added localhost4200: VSCode 5103: Archimedes.Ui 1103: Archimedes.Angular
                 options.AddPolicy("AllowAny", x =>
                 {
-                    x.WithOrigins("http://localhost:4200","http://localhost:5103","http://localhost:1103",
+                    x.WithOrigins("http://localhost:4200",
                             "http://www.archimedes-ui.com:1103","http://archimedes-ui.com:1103",
                             "http://www.archimedes-ui.com:5103","http://archimedes-ui.com:5103")
                         .AllowAnyHeader()
@@ -55,7 +57,6 @@ namespace Archimedes.Service.Ui
 
             app.UseRouting();
 
-            //todo leave as example
             app.UseCors("AllowAny");
 
             app.UseAuthorization();
