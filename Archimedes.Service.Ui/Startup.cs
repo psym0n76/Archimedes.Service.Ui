@@ -1,4 +1,5 @@
 using Archimedes.Library.Domain;
+using Archimedes.Service.Ui.Http;
 using Archimedes.Service.Ui.Hubs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -23,16 +24,14 @@ namespace Archimedes.Service.Ui
             services.Configure<Config>(Configuration.GetSection("AppSettings"));
             services.AddSignalR();
             services.AddControllers();
+            services.AddHttpClient<HttpClientHandler>();
 
             var config = Configuration.GetSection("AppSettings").Get<Config>();
 
             //todo leave as example
             services.AddCors(options =>
             {
-
-                //"http://localhost:5103","http://localhost:1103"
-
-                //added localhost4200: VSCode 5103: Archimedes.Ui 1103: Archimedes.Angular
+                //added localhost4200 for VScode
                 options.AddPolicy("AllowAny", x =>
                 {
                     x.WithOrigins("http://localhost:4200",
