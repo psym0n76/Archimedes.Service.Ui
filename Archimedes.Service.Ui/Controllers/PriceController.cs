@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 namespace Archimedes.Service.Ui.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class PriceController : ControllerBase
     {
 

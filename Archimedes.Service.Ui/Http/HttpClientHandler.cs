@@ -4,10 +4,10 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Archimedes.Library.Candles;
 using Archimedes.Library.Domain;
+using Archimedes.Library.Extensions;
 using Archimedes.Library.Message.Dto;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
 
 namespace Archimedes.Service.Ui.Http
 {
@@ -33,12 +33,14 @@ namespace Archimedes.Service.Ui.Http
 
             if (!response.IsSuccessStatusCode)
             {
-                _logger.LogError($"GET Failed:  {response.ReasonPhrase} from {_client.BaseAddress}price");
+                _logger.LogError($"GET Failed:  {response.ReasonPhrase} from {_client.BaseAddress}/price");
                 return null;
             }
 
-            var json = await response.Content.ReadAsStringAsync();
-            var prices = JsonConvert.DeserializeObject<IEnumerable<Price>>(json);
+            var prices = await response.Content.ReadAsAsync<IEnumerable<Price>>();
+
+            //var json = await response.Content.ReadAsStringAsync();
+            //var prices = JsonConvert.DeserializeObject<IEnumerable<Price>>(json);
 
             return prices;
         }
@@ -49,12 +51,13 @@ namespace Archimedes.Service.Ui.Http
 
             if (!response.IsSuccessStatusCode)
             {
-                _logger.LogError($"GET Failed:  {response.ReasonPhrase} from {_client.BaseAddress}candle");
+                _logger.LogError($"GET Failed:  {response.ReasonPhrase} from {_client.BaseAddress}/candle");
                 return null;
             }
 
-            var json = await response.Content.ReadAsStringAsync();
-            var candles = JsonConvert.DeserializeObject<IEnumerable<Candle>>(json);
+            var candles = await response.Content.ReadAsAsync<IEnumerable<Candle>>();
+            //var json = await response.Content.ReadAsStringAsync();
+            //var candles = JsonConvert.DeserializeObject<IEnumerable<Candle>>(json);
 
             return candles;
         }
@@ -65,12 +68,14 @@ namespace Archimedes.Service.Ui.Http
 
             if (!response.IsSuccessStatusCode)
             {
-                _logger.LogError($"GET Failed: {response.ReasonPhrase} from {_client.BaseAddress}market");
+                _logger.LogError($"GET Failed: {response.ReasonPhrase} from {_client.BaseAddress}/market");
                 return null;
             }
 
-            var json = await response.Content.ReadAsStringAsync();
-            var markets = JsonConvert.DeserializeObject<IEnumerable<MarketDto>>(json);
+            var markets = await response.Content.ReadAsAsync<IEnumerable<MarketDto>>();
+
+            //var json = await response.Content.ReadAsStringAsync();
+            //var markets = JsonConvert.DeserializeObject<IEnumerable<MarketDto>>(json);
 
             return markets;
         }

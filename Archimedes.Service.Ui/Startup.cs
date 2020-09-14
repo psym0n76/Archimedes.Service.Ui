@@ -23,9 +23,12 @@ namespace Archimedes.Service.Ui
         {
             services.AddLogging();
             services.Configure<Config>(Configuration.GetSection("AppSettings"));
+
+            services.AddSingleton(Configuration);
+
             services.AddSignalR();
             services.AddControllers();
-            services.AddHttpClient<HttpClientHandler>();
+            services.AddHttpClient<IHttpClientHandler, HttpClientHandler>();
 
             var config = Configuration.GetSection("AppSettings").Get<Config>();
 
