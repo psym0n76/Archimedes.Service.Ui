@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Archimedes.Library.Candles;
 using Archimedes.Library.Domain;
+using Archimedes.Library.Message.Dto;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
@@ -32,7 +33,7 @@ namespace Archimedes.Service.Ui.Http
 
             if (!response.IsSuccessStatusCode)
             {
-                _logger.LogError($"Failed to Post {response.ReasonPhrase} from {_client.BaseAddress}price");
+                _logger.LogError($"GET Failed:  {response.ReasonPhrase} from {_client.BaseAddress}price");
                 return null;
             }
 
@@ -40,6 +41,38 @@ namespace Archimedes.Service.Ui.Http
             var prices = JsonConvert.DeserializeObject<IEnumerable<Price>>(json);
 
             return prices;
+        }
+
+        public async Task<IEnumerable<Candle>> GetCandles()
+        {
+            var response = await _client.GetAsync("candle");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                _logger.LogError($"GET Failed:  {response.ReasonPhrase} from {_client.BaseAddress}candle");
+                return null;
+            }
+
+            var json = await response.Content.ReadAsStringAsync();
+            var candles = JsonConvert.DeserializeObject<IEnumerable<Candle>>(json);
+
+            return candles;
+        }
+
+        public async Task<IEnumerable<MarketDto>> GetMarkets()
+        {
+            var response = await _client.GetAsync("market");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                _logger.LogError($"GET Failed: {response.ReasonPhrase} from {_client.BaseAddress}market");
+                return null;
+            }
+
+            var json = await response.Content.ReadAsStringAsync();
+            var markets = JsonConvert.DeserializeObject<IEnumerable<MarketDto>>(json);
+
+            return markets;
         }
     }
 }

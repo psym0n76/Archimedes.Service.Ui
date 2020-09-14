@@ -8,13 +8,13 @@ namespace Archimedes.Service.Ui.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class PriceController : ControllerBase
+    public class MarketController : ControllerBase
     {
 
-        private readonly ILogger<PriceController> _logger;
+        private readonly ILogger<MarketController> _logger;
         private readonly IHttpClientHandler _client;
 
-        public PriceController(ILogger<PriceController> logger, IHttpClientHandler client)
+        public MarketController(ILogger<MarketController> logger, IHttpClientHandler client)
         {
             _logger = logger;
             _client = client;
@@ -25,8 +25,8 @@ namespace Archimedes.Service.Ui.Controllers
         {
             try
             {
-                var prices = await _client.GetPrices();
-                return Ok(prices);
+                var markets = await _client.GetMarkets();
+                return Ok(markets);
             }
             catch (Exception e)
             {
