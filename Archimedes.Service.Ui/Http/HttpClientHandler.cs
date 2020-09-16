@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Archimedes.Library.Candles;
 using Archimedes.Library.Domain;
 using Archimedes.Library.Extensions;
 using Archimedes.Library.Message.Dto;
@@ -27,7 +26,7 @@ namespace Archimedes.Service.Ui.Http
         }
 
 
-        public async Task<IEnumerable<Price>> GetPrices()
+        public async Task<IEnumerable<PriceDto>> GetPrices()
         {
             var response = await _client.GetAsync("price");
 
@@ -37,7 +36,7 @@ namespace Archimedes.Service.Ui.Http
                 return null;
             }
 
-            var prices = await response.Content.ReadAsAsync<IEnumerable<Price>>();
+            var prices = await response.Content.ReadAsAsync<IEnumerable<PriceDto>>();
 
             //var json = await response.Content.ReadAsStringAsync();
             //var prices = JsonConvert.DeserializeObject<IEnumerable<Price>>(json);
@@ -45,7 +44,7 @@ namespace Archimedes.Service.Ui.Http
             return prices;
         }
 
-        public async Task<IEnumerable<Candle>> GetCandles()
+        public async Task<IEnumerable<CandleDto>> GetCandles()
         {
             var response = await _client.GetAsync("candle");
 
@@ -55,7 +54,7 @@ namespace Archimedes.Service.Ui.Http
                 return null;
             }
 
-            var candles = await response.Content.ReadAsAsync<IEnumerable<Candle>>();
+            var candles = await response.Content.ReadAsAsync<IEnumerable<CandleDto>>();
             //var json = await response.Content.ReadAsStringAsync();
             //var candles = JsonConvert.DeserializeObject<IEnumerable<Candle>>(json);
 
@@ -68,7 +67,7 @@ namespace Archimedes.Service.Ui.Http
 
             if (!response.IsSuccessStatusCode)
             {
-                _logger.LogError($"GET Failed: {response.ReasonPhrase} from {_client.BaseAddress}/market");
+                _logger.LogError($"GET Failed: {response.ReasonPhrase} from {_client.BaseAddress}market");
                 return null;
             }
 
