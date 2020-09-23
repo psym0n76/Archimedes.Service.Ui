@@ -29,6 +29,7 @@ namespace Archimedes.Service.Ui
             services.AddSignalR();
             services.AddControllers();
             services.AddHttpClient<IHttpRepositoryClient, HttpRepositoryClient>();
+            services.AddHttpClient<IHttpHealthMonitorClient, HttpHealthMonitorClient>();
 
             var config = Configuration.GetSection("AppSettings").Get<Config>();
 
