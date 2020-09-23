@@ -12,9 +12,9 @@ namespace Archimedes.Service.Ui.Controllers
     {
 
         private readonly ILogger<CandleController> _logger;
-        private readonly IHttpClientHandler _client;
+        private readonly IHttpRepositoryClient _client;
 
-        public CandleController(ILogger<CandleController> logger, IHttpClientHandler client)
+        public CandleController(ILogger<CandleController> logger, IHttpRepositoryClient client)
         {
             _logger = logger;
             _client = client;

@@ -10,14 +10,14 @@ using Microsoft.Extensions.Options;
 
 namespace Archimedes.Service.Ui.Http
 {
-    public class HttpClientHandler : IHttpClientHandler
+    public class HttpRepositoryClient : IHttpRepositoryClient
     {
-        private readonly ILogger<HttpClientHandler> _logger;
+        private readonly ILogger<HttpRepositoryClient> _logger;
         private readonly HttpClient _client;
 
         //https://docs.microsoft.com/en-us/aspnet/core/fundamentals/http-requests?view=aspnetcore-3.1
 
-        public HttpClientHandler(IOptions<Config> config, HttpClient httpClient, ILogger<HttpClientHandler> logger)
+        public HttpRepositoryClient(IOptions<Config> config, HttpClient httpClient, ILogger<HttpRepositoryClient> logger)
         {
             httpClient.BaseAddress = new Uri($"{config.Value.ApiRepositoryUrl}");
             httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
@@ -32,15 +32,11 @@ namespace Archimedes.Service.Ui.Http
 
             if (!response.IsSuccessStatusCode)
             {
-                _logger.LogError($"GET Failed:  {response.ReasonPhrase} from {_client.BaseAddress}/price");
+                _logger.LogError($"GET Failed: {response.ReasonPhrase} from {response.RequestMessage.RequestUri}");
                 return null;
             }
 
             var prices = await response.Content.ReadAsAsync<IEnumerable<PriceDto>>();
-
-            //var json = await response.Content.ReadAsStringAsync();
-            //var prices = JsonConvert.DeserializeObject<IEnumerable<Price>>(json);
-
             return prices;
         }
 
@@ -50,13 +46,11 @@ namespace Archimedes.Service.Ui.Http
 
             if (!response.IsSuccessStatusCode)
             {
-                _logger.LogError($"GET Failed:  {response.ReasonPhrase} from {_client.BaseAddress}/candle");
+                _logger.LogError($"GET Failed: {response.ReasonPhrase} from {response.RequestMessage.RequestUri}");
                 return null;
             }
 
             var candles = await response.Content.ReadAsAsync<IEnumerable<CandleDto>>();
-            //var json = await response.Content.ReadAsStringAsync();
-            //var candles = JsonConvert.DeserializeObject<IEnumerable<Candle>>(json);
 
             return candles;
         }
@@ -67,14 +61,11 @@ namespace Archimedes.Service.Ui.Http
 
             if (!response.IsSuccessStatusCode)
             {
-                _logger.LogError($"GET Failed: {response.ReasonPhrase} from {_client.BaseAddress}market");
+                _logger.LogError($"GET Failed: {response.ReasonPhrase} from {response.RequestMessage.RequestUri}");
                 return null;
             }
 
             var markets = await response.Content.ReadAsAsync<IEnumerable<MarketDto>>();
-
-            //var json = await response.Content.ReadAsStringAsync();
-            //var markets = JsonConvert.DeserializeObject<IEnumerable<MarketDto>>(json);
 
             return markets;
         }

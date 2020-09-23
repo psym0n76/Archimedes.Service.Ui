@@ -12,9 +12,9 @@ namespace Archimedes.Service.Ui.Controllers
     {
 
         private readonly ILogger<MarketController> _logger;
-        private readonly IHttpClientHandler _client;
+        private readonly IHttpRepositoryClient _client;
 
-        public MarketController(ILogger<MarketController> logger, IHttpClientHandler client)
+        public MarketController(ILogger<MarketController> logger, IHttpRepositoryClient client)
         {
             _logger = logger;
             _client = client;

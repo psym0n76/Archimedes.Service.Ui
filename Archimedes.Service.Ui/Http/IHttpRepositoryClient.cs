@@ -4,7 +4,7 @@ using Archimedes.Library.Message.Dto;
 
 namespace Archimedes.Service.Ui.Http
 {
-    public interface IHttpClientHandler
+    public interface IHttpRepositoryClient
     {
         Task<IEnumerable<PriceDto>> GetPrices();
         Task<IEnumerable<CandleDto>> GetCandles();
