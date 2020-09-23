@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Archimedes.Library.Message.Dto;
 using Archimedes.Service.Ui.Http;
@@ -23,11 +24,11 @@ namespace Archimedes.Service.Ui.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<HealthMonitorDto> Get()
+        public async Task<ActionResult<HealthMonitorDto>> Get()
         {
             try
             {
-                var response = _client.GetHealthMonitor();
+                var response = await _client.GetHealthMonitor();
 
                 _logger.LogInformation($"Health monitor:\n{response}");
 
