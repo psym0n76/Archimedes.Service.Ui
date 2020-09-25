@@ -31,7 +31,7 @@ namespace Archimedes.Service.Ui.Controllers
 
             return Ok(new List<string>(){});
         }
-
+        
         [HttpPost]
         public async void Post([FromBody] MarketData value)
         {

@@ -33,15 +33,12 @@ namespace Archimedes.Service.Ui
 
             var config = Configuration.GetSection("AppSettings").Get<Config>();
 
-            //todo leave as example
             services.AddCors(options =>
             {
-                //added localhost4200 for VScode
                 options.AddPolicy("AllowAny", x =>
                 {
                     x.WithOrigins("http://localhost:4200",
-                            "http://angular-ui.dev.archimedes.com",
-                            "http://ui.dev.archimedes.com")
+                            "http://angular-ui.dev.archimedes.com")
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .AllowCredentials();
