@@ -55,6 +55,21 @@ namespace Archimedes.Service.Ui.Http
             return candles;
         }
 
+        public async Task<IEnumerable<CandleDto>> GetCandlesByGranularityMarket(string market, string granularity)
+        {
+            var response = await _client.GetAsync($"candle/bymarket_bygranularity?market={market}&granularity={granularity}");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                _logger.LogError($"GET Failed: {response.ReasonPhrase} from {response.RequestMessage.RequestUri}");
+                return null;
+            }
+
+            var candles = await response.Content.ReadAsAsync<IEnumerable<CandleDto>>();
+
+            return candles;
+        }
+
         public async Task<IEnumerable<MarketDto>> GetMarkets()
         {
             var response = await _client.GetAsync("market");

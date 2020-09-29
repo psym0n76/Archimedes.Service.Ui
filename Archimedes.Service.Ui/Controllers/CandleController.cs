@@ -35,5 +35,21 @@ namespace Archimedes.Service.Ui.Controllers
 
             return BadRequest();
         }
+
+        [HttpGet]
+        public async Task <IActionResult> GetCandlesByMarketAndGranularity([FromBody] string market, string granularity)
+        {
+            try
+            {
+                var candles = await _client.GetCandlesByGranularityMarket(market, granularity);
+                return Ok(candles);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.StackTrace);
+            }
+
+            return BadRequest();
+        }
     }
 }

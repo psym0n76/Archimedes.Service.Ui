@@ -9,5 +9,6 @@ namespace Archimedes.Service.Ui.Http
         Task<IEnumerable<PriceDto>> GetPrices();
         Task<IEnumerable<CandleDto>> GetCandles();
         Task<IEnumerable<MarketDto>> GetMarkets();
+        Task<IEnumerable<CandleDto>> GetCandlesByGranularityMarket(string market, string granularity);
     }
 }
