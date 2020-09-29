@@ -10,7 +10,6 @@ namespace Archimedes.Service.Ui.Controllers
     [Route("api/[controller]")]
     public class CandleController : ControllerBase
     {
-
         private readonly ILogger<CandleController> _logger;
         private readonly IHttpRepositoryClient _client;
 
@@ -36,8 +35,8 @@ namespace Archimedes.Service.Ui.Controllers
             return BadRequest();
         }
 
-        [HttpGet]
-        public async Task <IActionResult> GetCandlesByMarketAndGranularity([FromBody] string market, string granularity)
+        [HttpGet("bymarket_bygranularity", Name = nameof(GetCandlesByMarketAndGranularity))]
+        public async Task <IActionResult> GetCandlesByMarketAndGranularity(string market, string granularity)
         {
             try
             {
