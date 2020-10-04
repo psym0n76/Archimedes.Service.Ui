@@ -84,5 +84,36 @@ namespace Archimedes.Service.Ui.Http
 
             return markets;
         }
+
+        public async Task<IEnumerable<string>> GetMarketDistinct()
+        {
+            var response = await _client.GetAsync("market/bymarket_distinct");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                _logger.LogError($"GET Failed: {response.ReasonPhrase} from {response.RequestMessage.RequestUri}");
+                return null;
+            }
+
+            var markets = await response.Content.ReadAsAsync<IEnumerable<string>>();
+
+            return markets;
+        }
+        
+
+        public async Task<IEnumerable<string>> GetGranularityDistinct()
+        {
+            var response = await _client.GetAsync("market/bygranularity_distinct");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                _logger.LogError($"GET Failed: {response.ReasonPhrase} from {response.RequestMessage.RequestUri}");
+                return null;
+            }
+
+            var markets = await response.Content.ReadAsAsync<IEnumerable<string>>();
+
+            return markets;
+        }
     }
 }
