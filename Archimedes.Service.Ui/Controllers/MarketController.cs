@@ -56,7 +56,7 @@ namespace Archimedes.Service.Ui.Controllers
             return BadRequest();
         }
 
-        [HttpPut]
+        [HttpPut("update_market", Name = nameof(UpdateMarket))]
         public async Task<ActionResult> UpdateMarket([FromBody] MarketDto market, CancellationToken ct)
         {
             try
