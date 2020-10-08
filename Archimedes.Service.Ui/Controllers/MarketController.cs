@@ -61,6 +61,7 @@ namespace Archimedes.Service.Ui.Controllers
         {
             try
             {
+                _logger.LogInformation($"Market update request {market}");
                 await _client.UpdateMarket(market);
                 return Ok();
             }
@@ -77,6 +78,7 @@ namespace Archimedes.Service.Ui.Controllers
         {
             try
             {
+                _logger.LogInformation($"Market update request {market}");
                 await _client.UpdateMarket(market);
                 return Ok();
             }
