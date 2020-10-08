@@ -72,6 +72,22 @@ namespace Archimedes.Service.Ui.Controllers
             return BadRequest();
         }
 
+        [HttpPost("update_market_test", Name = nameof(UpdateMarket_Test))]
+        public async Task<ActionResult> UpdateMarket_Test([FromBody] MarketDto market, CancellationToken ct)
+        {
+            try
+            {
+                await _client.UpdateMarket(market);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.StackTrace);
+            }
+
+            return BadRequest();
+        }
+
         [HttpGet("bymarket_distinct", Name = nameof(GetMarketDistinctAsync))]
         public async Task<ActionResult<IEnumerable<string>>> GetMarketDistinctAsync(CancellationToken ct)
         {
