@@ -56,25 +56,8 @@ namespace Archimedes.Service.Ui.Controllers
             return BadRequest();
         }
 
-        [HttpPut("update_market", Name = nameof(UpdateMarket))]
+        [HttpPut]
         public async Task<ActionResult> UpdateMarket([FromBody] MarketDto market, CancellationToken ct)
-        {
-            try
-            {
-                _logger.LogInformation($"Market update request {market}");
-                await _client.UpdateMarket(market);
-                return Ok();
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e.StackTrace);
-            }
-
-            return BadRequest();
-        }
-
-        [HttpPost("update_market_test", Name = nameof(UpdateMarket_Test))]
-        public async Task<ActionResult> UpdateMarket_Test([FromBody] MarketDto market, CancellationToken ct)
         {
             try
             {
