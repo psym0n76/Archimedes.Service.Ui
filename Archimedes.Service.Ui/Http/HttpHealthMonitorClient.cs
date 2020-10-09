@@ -19,7 +19,7 @@ namespace Archimedes.Service.Ui.Http
 
         public HttpHealthMonitorClient(IOptions<Config> config, HttpClient httpClient, ILogger<HttpHealthMonitorClient> logger)
         {
-            httpClient.BaseAddress = new Uri($"{config.Value.HealthUrl}/api/");
+            httpClient.BaseAddress = new Uri($"{config.Value.HealthUrl}api/");
             httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
             _client = httpClient;
             _logger = logger;
