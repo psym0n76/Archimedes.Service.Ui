@@ -6,16 +6,20 @@ using Archimedes.Service.Ui.Hubs;
 using Microsoft.AspNet.SignalR.Client;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace Archimedes.Service.Ui
 {
     public class HealthSubscriptionService : BackgroundService
     {
         private readonly IHubContext<HealthHub> _context;
+        private readonly ILogger<HealthSubscriptionService> _logger;
 
-        public HealthSubscriptionService(IHubContext<HealthHub> context)
+
+        public HealthSubscriptionService(IHubContext<HealthHub> context, ILogger<HealthSubscriptionService> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -30,19 +34,19 @@ namespace Archimedes.Service.Ui
 
                 hubProxy.On<HealthMonitorDto>("Update", health =>
                 {
-                    Console.WriteLine($"Received update from health service {health.AppName}");
+                    _logger.LogInformation($"Received update from health service {health.AppName}");
                     _context.Clients.All.SendAsync("Update", health,stoppingToken);
                 });
 
                 hubProxy.On<HealthMonitorDto>("Add", health =>
                 {
-                    Console.WriteLine($"Received update from health service {health.AppName}");
+                    _logger.LogInformation($"Received update from health service {health.AppName}");
                     _context.Clients.All.SendAsync("Add", health,stoppingToken);
                 });
 
                 hubProxy.On<HealthMonitorDto>("Delete", health =>
                 {
-                    Console.WriteLine($"Received update from health service {health.AppName}");
+                    _logger.LogInformation($"Received update from health service {health.AppName}");
                     _context.Clients.All.SendAsync("Delete", health,stoppingToken);
                 });
 
