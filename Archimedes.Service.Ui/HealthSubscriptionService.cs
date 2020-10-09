@@ -29,7 +29,7 @@ namespace Archimedes.Service.Ui
 
             using (var hubConnection = new HubConnection("http://health-service.dev.archimedes.com/Hubs/Health"))
             {
-                var hubProxy = hubConnection.CreateHubProxy("HealthHub");
+                var hubProxy = hubConnection.CreateHubProxy("Health");
 
                 hubProxy.On<HealthMonitorDto>("Update", health =>
                 {
