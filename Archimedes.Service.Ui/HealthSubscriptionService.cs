@@ -27,6 +27,8 @@ namespace Archimedes.Service.Ui
 
             //    "HealthUrl": "http://health-service.dev.archimedes.com/"
 
+            _logger.LogInformation($"Initialise hub");
+
             using (var hubConnection = new HubConnection("http://health-service.dev.archimedes.com/Hubs/Health"))
             {
                 var hubProxy = hubConnection.CreateHubProxy("Health");
