@@ -2,57 +2,77 @@
 using System.Threading.Tasks;
 using Archimedes.Library.Message.Dto;
 using Archimedes.Service.Ui.Hubs;
-using Microsoft.AspNet.SignalR.Client;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
+
 namespace Archimedes.Service.Ui
 {
-    public class HealthSubscriptionService : BackgroundService
+    public class HealthSubscriptionService : IHostedService
     {
-        private readonly IHubContext<HealthHub> _context;
         private readonly ILogger<HealthSubscriptionService> _logger;
+        private readonly HubConnection _connection;
+        private readonly IHubContext<HealthHub> _context;
 
-
-        public HealthSubscriptionService(IHubContext<HealthHub> context, ILogger<HealthSubscriptionService> logger)
+        public HealthSubscriptionService(ILogger<HealthSubscriptionService> logger,
+            IHubContext<HealthHub> context)
         {
-            _context = context;
             _logger = logger;
+            _context = context;
+            _connection = new HubConnectionBuilder().WithUrl("http://health-service.dev.archimedes.com/Hubs/Health")
+                .Build();
+
+            _connection.On<HealthMonitorDto>("Update", health => { Update(health); });
+            _connection.On<HealthMonitorDto>("Add", health => { Add(health); });
+            _connection.On<HealthMonitorDto>("Delete", health => { Delete(health); });
         }
 
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+
+        public async Task StartAsync(CancellationToken cancellationToken)
         {
-            // experimental trying to piggy back the update from the health service to the UI.Service  to the UI
-
-            //    "HealthUrl": "http://health-service.dev.archimedes.com/"
-
             _logger.LogInformation($"Initialise hub");
 
-            using (var hubConnection = new HubConnection("http://health-service.dev.archimedes.com/Hubs/Health"))
+            while (true)
             {
-                var hubProxy = hubConnection.CreateHubProxy("Health");
-
-                hubProxy.On<HealthMonitorDto>("Update", health =>
+                try
                 {
-                    _logger.LogInformation($"Received update from health service {health.AppName}");
-                    _context.Clients.All.SendAsync("Update", health, stoppingToken);
-                });
+                    await _connection.StartAsync(cancellationToken);
 
-                hubProxy.On<HealthMonitorDto>("Add", health =>
+                    break;
+                }
+                catch
                 {
-                    _logger.LogInformation($"Received update from health service {health.AppName}");
-                    _context.Clients.All.SendAsync("Add", health, stoppingToken);
-                });
-
-                hubProxy.On<HealthMonitorDto>("Delete", health =>
-                {
-                    _logger.LogInformation($"Received update from health service {health.AppName}");
-                    _context.Clients.All.SendAsync("Delete", health, stoppingToken);
-                });
-
-                await hubConnection.Start();
+                    await Task.Delay(1000, cancellationToken);
+                }
             }
+        }
+
+        public Task StopAsync(CancellationToken cancellationToken)
+        {
+            return _connection.DisposeAsync();
+        }
+
+        public Task Add(HealthMonitorDto health)
+        {
+            _logger.LogInformation($"Initialise hub add");
+            _context.Clients.All.SendAsync("Add", health);
+            return Task.CompletedTask;
+        }
+
+        public Task Delete(HealthMonitorDto health)
+        {
+            _logger.LogInformation($"Initialise hub delete");
+            _context.Clients.All.SendAsync("Delete", health);
+            return Task.CompletedTask;
+        }
+
+        public Task Update(HealthMonitorDto health)
+        {
+            _logger.LogInformation($"Initialise hub update");
+            _context.Clients.All.SendAsync("Update", health);
+            return Task.CompletedTask;
         }
     }
 }
