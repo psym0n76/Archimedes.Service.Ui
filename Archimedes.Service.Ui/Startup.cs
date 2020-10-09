@@ -31,6 +31,8 @@ namespace Archimedes.Service.Ui
             services.AddHttpClient<IHttpRepositoryClient, HttpRepositoryClient>();
             services.AddHttpClient<IHttpHealthMonitorClient, HttpHealthMonitorClient>();
 
+            services.AddHostedService<HealthSubscriptionService>();
+
             var config = Configuration.GetSection("AppSettings").Get<Config>();
 
             services.AddCors(options =>
@@ -65,7 +67,7 @@ namespace Archimedes.Service.Ui
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHub<ValuesHub>("/Hubs/Values");
+                endpoints.MapHub<HealthHub>("/Hubs/Health");
             });
         }
     }
