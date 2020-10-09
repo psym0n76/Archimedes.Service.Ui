@@ -41,7 +41,7 @@ namespace Archimedes.Service.Ui.Controllers
 
 
         [HttpGet("bygranularity_distinct", Name = nameof(GetGranularityDistinctAsync))]
-        public async Task<ActionResult<IEnumerable<string>>> GetGranularityDistinctAsync(CancellationToken ct)
+        public async Task<ActionResult<IEnumerable<string>>> GetGranularityDistinctAsync()
         {
             try
             {
@@ -57,7 +57,7 @@ namespace Archimedes.Service.Ui.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult> UpdateMarket([FromBody] MarketDto market, CancellationToken ct)
+        public async Task<ActionResult> UpdateMarket([FromBody] MarketDto market)
         {
             try
             {
@@ -74,7 +74,7 @@ namespace Archimedes.Service.Ui.Controllers
         }
 
         [HttpGet("bymarket_distinct", Name = nameof(GetMarketDistinctAsync))]
-        public async Task<ActionResult<IEnumerable<string>>> GetMarketDistinctAsync(CancellationToken ct)
+        public async Task<ActionResult<IEnumerable<string>>> GetMarketDistinctAsync()
         {
             try
             {

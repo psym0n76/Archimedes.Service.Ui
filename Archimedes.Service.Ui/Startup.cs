@@ -31,9 +31,6 @@ namespace Archimedes.Service.Ui
             services.AddHttpClient<IHttpRepositoryClient, HttpRepositoryClient>();
             services.AddHttpClient<IHttpHealthMonitorClient, HttpHealthMonitorClient>();
 
-            //services.AddSingleton<IHostedService, HealthSubscriptionService>();
-            //services.AddHostedService<HealthSubscriptionService>();
-
             var config = Configuration.GetSection("AppSettings").Get<Config>();
 
             services.AddCors(options =>

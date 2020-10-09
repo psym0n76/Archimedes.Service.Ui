@@ -18,6 +18,6 @@ namespace Archimedes.Service.Ui
                 {
                     webBuilder.UseStartup<Startup>();
                 }).UseNLog()
-                .ConfigureServices(services => { services.AddHostedService<HealthSubscriptionService>(); });
+                .ConfigureServices(services => { services.AddHostedService<HealthSubscriptionService>(); }); // this ensures we have logging
     }
 }
