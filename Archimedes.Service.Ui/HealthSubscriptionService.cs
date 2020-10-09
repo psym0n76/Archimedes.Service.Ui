@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Archimedes.Library.Message.Dto;
 using Archimedes.Service.Ui.Hubs;
@@ -28,26 +27,26 @@ namespace Archimedes.Service.Ui
 
             //    "HealthUrl": "http://health-service.dev.archimedes.com/"
 
-            using (var hubConnection = new HubConnection("http://health-service.dev.archimedes.com/Hubs/Health")) 
+            using (var hubConnection = new HubConnection("http://health-service.dev.archimedes.com/Hubs/Health"))
             {
                 var hubProxy = hubConnection.CreateHubProxy("HealthHub");
 
                 hubProxy.On<HealthMonitorDto>("Update", health =>
                 {
                     _logger.LogInformation($"Received update from health service {health.AppName}");
-                    _context.Clients.All.SendAsync("Update", health,stoppingToken);
+                    _context.Clients.All.SendAsync("Update", health, stoppingToken);
                 });
 
                 hubProxy.On<HealthMonitorDto>("Add", health =>
                 {
                     _logger.LogInformation($"Received update from health service {health.AppName}");
-                    _context.Clients.All.SendAsync("Add", health,stoppingToken);
+                    _context.Clients.All.SendAsync("Add", health, stoppingToken);
                 });
 
                 hubProxy.On<HealthMonitorDto>("Delete", health =>
                 {
                     _logger.LogInformation($"Received update from health service {health.AppName}");
-                    _context.Clients.All.SendAsync("Delete", health,stoppingToken);
+                    _context.Clients.All.SendAsync("Delete", health, stoppingToken);
                 });
 
                 await hubConnection.Start();
