@@ -1,4 +1,6 @@
+using System.ComponentModel.Design;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NLog.Web;
 
@@ -16,6 +18,7 @@ namespace Archimedes.Service.Ui
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                }).UseNLog();
+                }).UseNLog()
+                .ConfigureServices(services => { services.AddHostedService<HealthSubscriptionService>(); });
     }
 }
