@@ -70,6 +70,7 @@ namespace Archimedes.Service.Ui
 
         public Task Update(HealthMonitorDto health)
         {
+            _logger.LogInformation("Update reveived from one of the health apis");
             _context.Clients.All.SendAsync("Update", health);
             return Task.CompletedTask;
         }
