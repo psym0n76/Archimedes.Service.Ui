@@ -6,8 +6,9 @@ using Microsoft.Extensions.Logging;
 
 namespace Archimedes.Service.Ui.Controllers
 {
+
+    [Route("api/price-level")]
     [ApiController]
-    [Route("api/[controller]")]
     public class PriceLevelController : ControllerBase
     {
         private readonly ILogger<PriceLevelController> _logger;
@@ -20,7 +21,7 @@ namespace Archimedes.Service.Ui.Controllers
         }
 
         [HttpGet]
-        public async Task <IActionResult> GetPriceLevels()
+        public async Task <IActionResult> Get()
         {
             try
             {
