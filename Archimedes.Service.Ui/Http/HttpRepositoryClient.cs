@@ -126,5 +126,20 @@ namespace Archimedes.Service.Ui.Http
 
             return markets;
         }
+
+        public async Task<IEnumerable<PriceLevelDto>> GetPriceLevels()
+        {
+            var response = await _client.GetAsync("pricelevel");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                _logger.LogError($"GET Failed: {response.ReasonPhrase} from {response.RequestMessage.RequestUri}");
+                return null;
+            }
+
+            var priceLevels = await response.Content.ReadAsAsync<IEnumerable<PriceLevelDto>>();
+
+            return priceLevels;
+        }
     }
 }
