@@ -21,7 +21,7 @@ namespace Archimedes.Service.Ui.Controllers
         }
 
         [HttpGet]
-        public async Task <IActionResult> Get()
+        public async Task <IActionResult> GetPriceLevels()
         {
             try
             {

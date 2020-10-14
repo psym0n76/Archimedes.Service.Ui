@@ -129,7 +129,7 @@ namespace Archimedes.Service.Ui.Http
 
         public async Task<IEnumerable<PriceLevelDto>> GetPriceLevels()
         {
-            var response = await _client.GetAsync("pricelevel");
+            var response = await _client.GetAsync("price-level");
 
             if (!response.IsSuccessStatusCode)
             {
