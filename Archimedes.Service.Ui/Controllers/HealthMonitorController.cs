@@ -30,8 +30,6 @@ namespace Archimedes.Service.Ui.Controllers
             {
                 var response = await _client.GetHealthMonitor();
 
-                //_logger.LogInformation($"Health monitor:\n{response}");
-
                 return Ok(response);
             }
             catch (Exception e)
