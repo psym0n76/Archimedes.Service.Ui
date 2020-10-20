@@ -66,6 +66,17 @@ namespace Archimedes.Service.Ui.Http
             }
         }
 
+        public async Task UpdateStrategy(StrategyDto strategy)
+        {
+            var payload = new JsonContent(strategy);
+            var response = await _client.PutAsync("strategy", payload);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                _logger.LogError($"PUT Failed: {response.ReasonPhrase} from {response.RequestMessage.RequestUri} \n {strategy}");
+            }
+        }
+
         public async Task<IEnumerable<CandleDto>> GetCandlesByGranularityMarket(string market, string granularity)
         {
             var response = await _client.GetAsync($"candle/bymarket_bygranularity?market={market}&granularity={granularity}");
