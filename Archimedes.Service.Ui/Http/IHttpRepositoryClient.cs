@@ -9,6 +9,8 @@ namespace Archimedes.Service.Ui.Http
         Task<IEnumerable<PriceDto>> GetPrices();
         Task<IEnumerable<CandleDto>> GetCandles();
         Task<IEnumerable<MarketDto>> GetMarkets();
+        Task<IEnumerable<StrategyDto>> GetStrategies();
+
         Task<IEnumerable<PriceLevelDto>> GetPriceLevels();
 
         Task UpdateMarket(MarketDto market);
@@ -16,5 +18,7 @@ namespace Archimedes.Service.Ui.Http
 
         Task<IEnumerable<string>> GetGranularityDistinct();
         Task<IEnumerable<string>> GetMarketDistinct();
+
+
     }
 }

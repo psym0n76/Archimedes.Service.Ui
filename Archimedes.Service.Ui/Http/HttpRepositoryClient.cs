@@ -96,6 +96,21 @@ namespace Archimedes.Service.Ui.Http
             return markets;
         }
 
+        public async Task<IEnumerable<StrategyDto>> GetStrategies()
+        {
+            var response = await _client.GetAsync("strategy");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                _logger.LogError($"GET Failed: {response.ReasonPhrase} from {response.RequestMessage.RequestUri}");
+                return null;
+            }
+
+            var strategies = await response.Content.ReadAsAsync<IEnumerable<StrategyDto>>();
+
+            return strategies;
+        }
+
         public async Task<IEnumerable<string>> GetMarketDistinct()
         {
             var response = await _client.GetAsync("market/bymarket_distinct");
