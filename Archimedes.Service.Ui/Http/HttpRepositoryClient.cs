@@ -19,7 +19,7 @@ namespace Archimedes.Service.Ui.Http
 
         public HttpRepositoryClient(IOptions<Config> config, HttpClient httpClient, ILogger<HttpRepositoryClient> logger)
         {
-            httpClient.BaseAddress = new Uri($"{config.Value.ApiRepositoryUrl}/api");
+            httpClient.BaseAddress = new Uri($"{config.Value.ApiRepositoryUrl}");
             httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
             _client = httpClient;
             _logger = logger;
