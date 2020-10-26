@@ -69,7 +69,7 @@ namespace Archimedes.Service.Ui
 
         public Task Update(CandleMetricDto metric)
         {
-            //_logger.LogInformation("Update reveived from one of the metric apis");
+            _logger.LogInformation("Update received from one of the metric apis");
             _context.Clients.All.SendAsync("Update", metric);
             return Task.CompletedTask;
         }
