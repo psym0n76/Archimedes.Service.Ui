@@ -24,7 +24,7 @@ namespace Archimedes.Service.Ui
             _logger = logger;
             _context = context;
             _config = config.Value;
-            _connection = new HubConnectionBuilder().WithUrl($"{config.Value.HealthUrl}Hubs/Health")
+            _connection = new HubConnectionBuilder().WithUrl($"{config.Value.HealthUrl}hubs/health")
                 .Build();
 
             _connection.On<HealthMonitorDto>("Update", health => { Update(health); });
@@ -34,7 +34,7 @@ namespace Archimedes.Service.Ui
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            _logger.LogInformation($"Initialise Health hub {_config.HealthUrl}Hubs/Health");
+            _logger.LogInformation($"Initialise Health hub {_config.HealthUrl}hubs/health");
 
             while (true)
             {
@@ -70,7 +70,7 @@ namespace Archimedes.Service.Ui
 
         public Task Update(HealthMonitorDto health)
         {
-            //_logger.LogInformation("Update reveived from one of the health apis");
+            //_logger.LogInformation($"Update received from one of the strategy apis {health}");
             _context.Clients.All.SendAsync("Update", health);
             return Task.CompletedTask;
         }

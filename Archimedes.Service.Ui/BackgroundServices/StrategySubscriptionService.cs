@@ -24,7 +24,7 @@ namespace Archimedes.Service.Ui
             _logger = logger;
             _context = context;
             _config = config.Value;
-            _connection = new HubConnectionBuilder().WithUrl($"{config.Value.StrategyUrl}Hubs/Strategy")
+            _connection = new HubConnectionBuilder().WithUrl($"{config.Value.StrategyUrl}hubs/strategy")
                 .Build();
 
             _connection.On<StrategyDto>("Update", strategy => { Update(strategy); });
@@ -34,7 +34,7 @@ namespace Archimedes.Service.Ui
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            _logger.LogInformation($"Initialise Strategy hub {_config.StrategyUrl}Hubs/Strategy");
+            _logger.LogInformation($"Initialise Strategy hub {_config.StrategyUrl}hubs/strategy");
 
             while (true)
             {

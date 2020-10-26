@@ -23,7 +23,7 @@ namespace Archimedes.Service.Ui
             _logger = logger;
             _context = context;
             _config = config.Value;
-            _connection = new HubConnectionBuilder().WithUrl($"{config.Value.RepositoryUrl}Hubs/candle-metric")
+            _connection = new HubConnectionBuilder().WithUrl($"{config.Value.RepositoryUrl}hubs/candle-metric")
                 .Build();
 
             _connection.On<CandleMetricDto>("Update", metric => { Update(metric); });
@@ -33,7 +33,7 @@ namespace Archimedes.Service.Ui
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            _logger.LogInformation($"Initialise Repo hub {_config.RepositoryUrl}Hubs/candle-metric");
+            _logger.LogInformation($"Initialise Repo hub {_config.RepositoryUrl}hubs/candle-metric");
 
             while (true)
             {
@@ -69,7 +69,7 @@ namespace Archimedes.Service.Ui
 
         public Task Update(CandleMetricDto metric)
         {
-            _logger.LogInformation("Update received from one of the metric apis");
+            _logger.LogInformation($"Update received from one of the metric apis {metric}");
             _context.Clients.All.SendAsync("Update", metric);
             return Task.CompletedTask;
         }
