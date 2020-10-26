@@ -46,7 +46,7 @@ namespace Archimedes.Service.Ui
                 {
                     services.AddHostedService<HealthSubscriptionService>();
                     services.AddHostedService<StrategySubscriptionService>();
-                    services.AddHostedService<CandleMetricsSubscriptionService>();
+                    services.AddHostedService<MarketSubscriptionService>();
                 }); // this ensures we have logging
     }
 }

@@ -5,19 +5,19 @@ using Microsoft.AspNetCore.SignalR;
 
 namespace Archimedes.Service.Ui
 {
-    public class CandleMetricHub : Hub<ICandleMetricHub>
+    public class MarketHub : Hub<IMarketHub>
     {
-        public async Task Add(CandleMetricDto value)
+        public async Task Add(MarketDto value)
         {
             await Clients.All.Add(value);
         }
 
-        public async Task Delete(CandleMetricDto value)
+        public async Task Delete(MarketDto value)
         {
             await Clients.All.Delete(value);
         }
 
-        public async Task Update(CandleMetricDto value)
+        public async Task Update(MarketDto value)
         {
             await Clients.All.Update(value);
         }

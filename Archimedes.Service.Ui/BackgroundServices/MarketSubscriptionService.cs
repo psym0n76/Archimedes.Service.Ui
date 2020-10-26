@@ -10,30 +10,30 @@ using Microsoft.Extensions.Options;
 
 namespace Archimedes.Service.Ui
 {
-    public class CandleMetricsSubscriptionService : IHostedService
+    public class MarketSubscriptionService : IHostedService
     {
-        private readonly ILogger<CandleMetricsSubscriptionService> _logger;
+        private readonly ILogger<MarketSubscriptionService> _logger;
         private readonly HubConnection _connection;
-        private readonly IHubContext<CandleMetricHub> _context;
+        private readonly IHubContext<MarketHub> _context;
         private readonly Config _config;
 
-        public CandleMetricsSubscriptionService(ILogger<CandleMetricsSubscriptionService> logger,
-            IHubContext<CandleMetricHub> context, IOptions<Config> config)
+        public MarketSubscriptionService(ILogger<MarketSubscriptionService> logger,
+            IHubContext<MarketHub> context, IOptions<Config> config)
         {
             _logger = logger;
             _context = context;
             _config = config.Value;
-            _connection = new HubConnectionBuilder().WithUrl($"{config.Value.RepositoryUrl}hubs/candle-metric")
+            _connection = new HubConnectionBuilder().WithUrl($"{config.Value.RepositoryUrl}hubs/market")
                 .Build();
 
-            _connection.On<CandleMetricDto>("Update", metric => { Update(metric); });
-            _connection.On<CandleMetricDto>("Add", metric => { Add(metric); });
-            _connection.On<CandleMetricDto>("Delete", metric => { Delete(metric); });
+            _connection.On<MarketDto>("Update", metric => { Update(metric); });
+            _connection.On<MarketDto>("Add", metric => { Add(metric); });
+            _connection.On<MarketDto>("Delete", metric => { Delete(metric); });
         }
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            _logger.LogInformation($"Initialise Repo hub {_config.RepositoryUrl}hubs/candle-metric");
+            _logger.LogInformation($"Initialise Repo hub {_config.RepositoryUrl}hubs/market");
 
             while (true)
             {
@@ -55,19 +55,19 @@ namespace Archimedes.Service.Ui
             return _connection.DisposeAsync();
         }
 
-        public Task Add(CandleMetricDto metric)
+        public Task Add(MarketDto metric)
         {
             _context.Clients.All.SendAsync("Add", metric);
             return Task.CompletedTask;
         }
 
-        public Task Delete(CandleMetricDto metric)
+        public Task Delete(MarketDto metric)
         {
             _context.Clients.All.SendAsync("Delete", metric);
             return Task.CompletedTask;
         }
 
-        public Task Update(CandleMetricDto metric)
+        public Task Update(MarketDto metric)
         {
             _logger.LogInformation($"Update received from one of the metric apis {metric}");
             _context.Clients.All.SendAsync("Update", metric);
