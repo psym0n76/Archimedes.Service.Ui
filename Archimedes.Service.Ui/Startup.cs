@@ -65,9 +65,9 @@ namespace Archimedes.Service.Ui
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHub<HealthHub>("/Hubs/Health");
-                endpoints.MapHub<StrategyHub>("/Hubs/Strategy");
-                endpoints.MapHub<CandleMetricHub>("/Hubs/candle-metric");
+                endpoints.MapHub<HealthHub>("/hubs/Health");
+                endpoints.MapHub<StrategyHub>("/hubs/Strategy");
+                endpoints.MapHub<CandleMetricHub>("/hubs/candle-metric");
 
             });
         }
