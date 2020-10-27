@@ -68,7 +68,7 @@ namespace Archimedes.Service.Ui
                 endpoints.MapHub<HealthHub>("/hubs/health");
                 endpoints.MapHub<StrategyHub>("/hubs/strategy");
                 endpoints.MapHub<MarketHub>("/hubs/market");
-
+                endpoints.MapHub<PriceHub>("/hubs/price");
             });
         }
     }
