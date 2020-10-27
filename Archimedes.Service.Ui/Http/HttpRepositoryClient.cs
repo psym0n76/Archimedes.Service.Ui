@@ -122,6 +122,21 @@ namespace Archimedes.Service.Ui.Http
             return strategies;
         }
 
+        public async Task<IEnumerable<PriceDto>> GetPricesDistinct()
+        {
+            var response = await _client.GetAsync("price/bymarket_distinct");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                _logger.LogError($"GET Failed: {response.ReasonPhrase} from {response.RequestMessage.RequestUri}");
+                return null;
+            }
+
+            var prices = await response.Content.ReadAsAsync<IEnumerable<PriceDto>>();
+
+            return prices;
+        }
+
         public async Task<IEnumerable<string>> GetMarketDistinct()
         {
             var response = await _client.GetAsync("market/bymarket_distinct");

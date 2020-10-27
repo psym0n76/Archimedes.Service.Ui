@@ -35,5 +35,21 @@ namespace Archimedes.Service.Ui.Controllers
 
             return BadRequest();
         }
+
+        [HttpGet("bymarket_distinct", Name = nameof(GetMarketDistinctAsync))]
+        public async Task <IActionResult> GetMarketDistinctAsync()
+        {
+            try
+            {
+                var prices = await _client.GetPricesDistinct();
+                return Ok(prices);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.StackTrace);
+            }
+
+            return BadRequest();
+        }
     }
 }

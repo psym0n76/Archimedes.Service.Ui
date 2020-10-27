@@ -7,6 +7,7 @@ namespace Archimedes.Service.Ui.Http
     public interface IHttpRepositoryClient
     {
         Task<IEnumerable<PriceDto>> GetPrices();
+        Task<IEnumerable<PriceDto>> GetPricesDistinct ();
         Task<IEnumerable<CandleDto>> GetCandles();
         Task<IEnumerable<MarketDto>> GetMarkets();
         Task<IEnumerable<StrategyDto>> GetStrategies();
