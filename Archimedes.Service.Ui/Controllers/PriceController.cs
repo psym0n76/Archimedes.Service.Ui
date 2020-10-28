@@ -67,7 +67,7 @@ namespace Archimedes.Service.Ui.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Consumes(MediaTypeNames.Application.Json)]
-        [HttpPost("subscribe", Name = nameof(PostPriceSubscription))]
+        [HttpPut("subscribe", Name = nameof(PostPriceSubscription))]
         public ActionResult<IEnumerable<PriceDto>> PostPriceSubscription([FromBody] MarketDto marketDto )
         {
             try
