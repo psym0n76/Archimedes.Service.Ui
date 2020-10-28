@@ -1,4 +1,7 @@
 using Archimedes.Library.Domain;
+using Archimedes.Library.Message;
+using Archimedes.Library.RabbitMq;
+using Archimedes.Service.Price;
 using Archimedes.Service.Ui.Http;
 using Archimedes.Service.Ui.Hubs;
 using Microsoft.AspNetCore.Builder;
@@ -24,6 +27,8 @@ namespace Archimedes.Service.Ui
             services.AddLogging();
             services.Configure<Config>(Configuration.GetSection("AppSettings"));
 
+            var config = Configuration.GetSection("AppSettings").Get<Config>();
+
             services.AddSingleton(Configuration);
 
             services.AddSignalR();
@@ -31,7 +36,8 @@ namespace Archimedes.Service.Ui
             services.AddHttpClient<IHttpRepositoryClient, HttpRepositoryClient>();
             services.AddHttpClient<IHttpHealthMonitorClient, HttpHealthMonitorClient>();
 
-            var config = Configuration.GetSection("AppSettings").Get<Config>();
+            services.AddTransient<IProducer<PriceMessage>>(x => new Producer<PriceMessage>(config.RabbitHost, config.RabbitPort,config.RabbitExchange));
+            services.AddTransient<IPriceRequestManager, PriceRequestManager>();
 
             services.AddCors(options =>
             {
