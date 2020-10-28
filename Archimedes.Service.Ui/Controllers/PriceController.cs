@@ -72,6 +72,7 @@ namespace Archimedes.Service.Ui.Controllers
         {
             try
             {
+                _logger.LogInformation($"Subscribe to {marketDto.Name}");
                 _request.SendToQueue(marketDto);
                 return Ok();
             }
