@@ -70,7 +70,7 @@ namespace Archimedes.Service.Ui
 
         public Task Update(PriceDto price)
         {
-            _logger.LogInformation($"Update received from one of the strategy apis {price}");
+            //_logger.LogInformation($"Update received from one of the strategy apis {price}");
             _context.Clients.All.SendAsync("Update", price);
             return Task.CompletedTask;
         }
