@@ -92,6 +92,21 @@ namespace Archimedes.Service.Ui.Http
             return candles;
         }
 
+        public async Task<IEnumerable<CandleDto>> GetCandlesByPage(int page, int size)
+        {
+            var response = await _client.GetAsync($"candle/bypage?page={page}&size={size}");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                _logger.LogError($"GET Failed: {response.ReasonPhrase} from {response.RequestMessage.RequestUri}");
+                return null;
+            }
+
+            var candles = await response.Content.ReadAsAsync<IEnumerable<CandleDto>>();
+
+            return candles;
+        }
+
         public async Task<IEnumerable<MarketDto>> GetMarkets()
         {
             var response = await _client.GetAsync("market");

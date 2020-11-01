@@ -50,5 +50,22 @@ namespace Archimedes.Service.Ui.Controllers
 
             return BadRequest();
         }
+
+        
+        [HttpGet("bypage", Name = nameof(GetCandlesByPage))]
+        public async Task <IActionResult> GetCandlesByPage(int page, int size)
+        {
+            try
+            {
+                var candles = await _client.GetCandlesByPage(page, size);
+                return Ok(candles);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.StackTrace);
+            }
+
+            return BadRequest();
+        }
     }
 }

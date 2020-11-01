@@ -17,6 +17,7 @@ namespace Archimedes.Service.Ui.Http
         Task UpdateMarket(MarketDto market);
         Task UpdateStrategy(StrategyDto market);
         Task<IEnumerable<CandleDto>> GetCandlesByGranularityMarket(string market, string granularity);
+        Task<IEnumerable<CandleDto>> GetCandlesByPage(int page, int size);
 
         Task<IEnumerable<string>> GetGranularityDistinct();
         Task<IEnumerable<string>> GetMarketDistinct();
