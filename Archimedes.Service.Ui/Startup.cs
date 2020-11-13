@@ -31,7 +31,9 @@ namespace Archimedes.Service.Ui
 
             services.AddSingleton(Configuration);
 
-            services.AddSignalR();
+            services.AddSignalR()
+                .AddJsonProtocol(options => { options.PayloadSerializerOptions.PropertyNamingPolicy = null; });
+
             services.AddControllers();
             services.AddHttpClient<IHttpRepositoryClient, HttpRepositoryClient>();
             services.AddHttpClient<IHttpHealthMonitorClient, HttpHealthMonitorClient>();
