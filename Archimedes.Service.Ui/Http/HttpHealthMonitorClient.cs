@@ -28,16 +28,24 @@ namespace Archimedes.Service.Ui.Http
 
         public async Task<IEnumerable<HealthMonitorDto>> GetHealthMonitor()
         {
-            var response = await _client.GetAsync("health");
-
-            if (!response.IsSuccessStatusCode)
+            try
             {
-                _logger.LogError($"GET Failed: {response.ReasonPhrase} from {response.RequestMessage.RequestUri}");
+                var response = await _client.GetAsync("health");
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    _logger.LogError($"GET Failed: {response.ReasonPhrase} from {response.RequestMessage.RequestUri}");
+                    return null;
+                }
+
+                var health = await response.Content.ReadAsAsync<IEnumerable<HealthMonitorDto>>();
+                return health;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"GET Failed: {e.Message} from {e.InnerException}");
                 return null;
             }
-
-            var health = await response.Content.ReadAsAsync<IEnumerable<HealthMonitorDto>>();
-            return health;
         }
     }
 }
