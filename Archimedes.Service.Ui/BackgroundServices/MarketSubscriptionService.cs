@@ -52,7 +52,8 @@ namespace Archimedes.Service.Ui
 
         public Task StopAsync(CancellationToken cancellationToken)
         {
-            return _connection.DisposeAsync();
+            _connection.DisposeAsync();
+            return Task.CompletedTask;
         }
 
         public Task Add(MarketDto metric)
