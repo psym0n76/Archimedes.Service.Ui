@@ -38,7 +38,7 @@ namespace Archimedes.Service.Ui
             services.AddHttpClient<IHttpHealthMonitorClient, HttpHealthMonitorClient>();
 
             services.AddHostedService<HealthSubscriptionService>();
-            services.AddHostedService<StrategySubscriptionService>();
+            //services.AddHostedService<StrategySubscriptionService>();
             services.AddHostedService<MarketSubscriptionService>();
             services.AddHostedService<PriceSubscriptionService>();
 
