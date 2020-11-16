@@ -37,6 +37,12 @@ namespace Archimedes.Service.Ui
             services.AddHttpClient<IHttpRepositoryClient, HttpRepositoryClient>();
             services.AddHttpClient<IHttpHealthMonitorClient, HttpHealthMonitorClient>();
 
+            services.AddHostedService<HealthSubscriptionService>();
+            services.AddHostedService<StrategySubscriptionService>();
+            services.AddHostedService<MarketSubscriptionService>();
+            services.AddHostedService<PriceSubscriptionService>();
+
+
             services.AddTransient<IProducer<PriceMessage>>(x => new Producer<PriceMessage>(config.RabbitHost, config.RabbitPort,config.RabbitExchange));
             services.AddTransient<IPriceRequestManager, PriceRequestManager>();
 

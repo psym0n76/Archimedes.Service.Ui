@@ -40,14 +40,15 @@ namespace Archimedes.Service.Ui
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                    webBuilder.CaptureStartupErrors(false);
+                    webBuilder.CaptureStartupErrors(true);
+                    webBuilder.UseSetting("detailedErrors", "true");
                 }).UseNLog()
                 .ConfigureServices(services =>
                 { 
-                    services.AddHostedService<HealthSubscriptionService>();
+                   // services.AddHostedService<HealthSubscriptionService>(); 
                    // services.AddHostedService<StrategySubscriptionService>();
-                   services.AddHostedService<MarketSubscriptionService>();
-                   services.AddHostedService<PriceSubscriptionService>();
+                   //services.AddHostedService<MarketSubscriptionService>();
+                   //services.AddHostedService<PriceSubscriptionService>();
                 }); // this ensures we have logging
     }
 }
