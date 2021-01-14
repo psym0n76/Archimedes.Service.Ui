@@ -28,7 +28,8 @@ namespace Archimedes.Service.Ui.Controllers
         {
             try
             {
-                var priceLevels = await _client.GetPriceLevels();
+                //todo include these parameters in request
+                var priceLevels = await _client.GetPriceLevelsByCurrentAndPreviousDay("GBP/USD", "15Min");
 
                 if (!priceLevels.Any())
                 {

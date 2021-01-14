@@ -12,7 +12,7 @@ namespace Archimedes.Service.Ui.Http
         Task<IEnumerable<MarketDto>> GetMarkets();
         Task<IEnumerable<StrategyDto>> GetStrategies();
 
-        Task<IEnumerable<PriceLevelDto>> GetPriceLevels();
+        Task<IEnumerable<PriceLevelDto>> GetPriceLevelsByCurrentAndPreviousDay(string market, string granularity);
 
         Task UpdateMarket(MarketDto market);
         Task UpdateStrategy(StrategyDto market);

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Archimedes.Library.Domain;
 using Archimedes.Library.Extensions;
+using Archimedes.Library.Logger;
 using Archimedes.Library.Message.Dto;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -14,6 +16,9 @@ namespace Archimedes.Service.Ui.Http
     {
         private readonly ILogger<HttpRepositoryClient> _logger;
         private readonly HttpClient _client;
+        private readonly BatchLog _batchLog = new();
+        private string _logId;
+
 
         //https://docs.microsoft.com/en-us/aspnet/core/fundamentals/http-requests?view=aspnetcore-3.1
 
@@ -293,28 +298,33 @@ namespace Archimedes.Service.Ui.Http
             return null;
         }
 
-        public async Task<IEnumerable<PriceLevelDto>> GetPriceLevels()
+        public async Task<IEnumerable<PriceLevelDto>> GetPriceLevelsByCurrentAndPreviousDay(string market, string granularity)
         {
-            try
-            {
-                var response = await _client.GetAsync("price-level");
+            _logId = _batchLog.Start();
+            _batchLog.Update(_logId, $"GET {nameof(GetPriceLevelsByCurrentAndPreviousDay)} {market} {granularity}");
 
-                if (!response.IsSuccessStatusCode)
+            var response =
+                await _client.GetAsync(
+                    $"price-level/byMarket_byGranularity_byCurrentDay?market={market}&granularity={granularity}");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorResponse = await response.Content.ReadAsAsync<string>();
+
+                if (response.StatusCode == HttpStatusCode.NotFound)
                 {
-                    _logger.LogError($"GET Failed: {response.ReasonPhrase} from {response.RequestMessage.RequestUri}");
+                    _logger.LogWarning(_batchLog.Print(_logId, $"GET FAILED: {errorResponse}"));
                     return new List<PriceLevelDto>();
                 }
 
-                var priceLevels = await response.Content.ReadAsAsync<IEnumerable<PriceLevelDto>>();
-
-                return priceLevels;
-            }
-            catch (Exception e)
-            {
-                _logger.LogError($"GET Failed: {e.Message} from {e.InnerException}");
+                if (response.RequestMessage != null)
+                    _logger.LogError(_batchLog.Print(_logId, $"GET FAILED: {response.ReasonPhrase}  \n\n{errorResponse} \n\n{response.RequestMessage.RequestUri}"));
+                return new List<PriceLevelDto>();
             }
 
-            return null;
+            var priceLevels = await response.Content.ReadAsAsync<List<PriceLevelDto>>();
+            _logger.LogInformation(_batchLog.Print(_logId, $"Returned {priceLevels.Count} PriceLevel(s)"));
+            return priceLevels;
         }
     }
 }
