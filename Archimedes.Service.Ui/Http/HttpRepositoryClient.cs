@@ -302,7 +302,7 @@ namespace Archimedes.Service.Ui.Http
                 if (!response.IsSuccessStatusCode)
                 {
                     _logger.LogError($"GET Failed: {response.ReasonPhrase} from {response.RequestMessage.RequestUri}");
-                    return null;
+                    return new List<PriceLevelDto>();
                 }
 
                 var priceLevels = await response.Content.ReadAsAsync<IEnumerable<PriceLevelDto>>();

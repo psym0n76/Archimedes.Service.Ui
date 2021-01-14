@@ -41,9 +41,11 @@ namespace Archimedes.Service.Ui
             //services.AddHostedService<StrategySubscriptionService>();
             services.AddHostedService<MarketSubscriptionService>();
             services.AddHostedService<PriceSubscriptionService>();
+            services.AddHostedService<PriceLevelSubscriptionService>();
 
 
-            services.AddTransient<IProducer<PriceMessage>>(x => new Producer<PriceMessage>(config.RabbitHost, config.RabbitPort,config.RabbitExchange));
+            services.AddTransient<IProducer<PriceMessage>>(x =>
+                new Producer<PriceMessage>(config.RabbitHost, config.RabbitPort, config.RabbitExchange));
             services.AddTransient<IPriceRequestManager, PriceRequestManager>();
 
             services.AddCors(options =>
@@ -82,6 +84,7 @@ namespace Archimedes.Service.Ui
                 endpoints.MapHub<StrategyHub>("/hubs/strategy");
                 endpoints.MapHub<MarketHub>("/hubs/market");
                 endpoints.MapHub<PriceHub>("/hubs/price");
+                endpoints.MapHub<PriceLevelHub>("/hubs/price-level");
             });
         }
     }
