@@ -42,8 +42,8 @@ namespace Archimedes.Service.Ui
             services.AddHostedService<MarketSubscriptionService>();
             services.AddHostedService<PriceSubscriptionService>();
             services.AddHostedService<PriceLevelSubscriptionService>();
-
-
+            services.AddHostedService<TradeSubscriptionService>();
+            
             services.AddTransient<IProducer<PriceMessage>>(x =>
                 new Producer<PriceMessage>(config.RabbitHost, config.RabbitPort, config.RabbitExchange));
             services.AddTransient<IPriceRequestManager, PriceRequestManager>();
@@ -85,6 +85,7 @@ namespace Archimedes.Service.Ui
                 endpoints.MapHub<MarketHub>("/hubs/market");
                 endpoints.MapHub<PriceHub>("/hubs/price");
                 endpoints.MapHub<PriceLevelHub>("/hubs/price-level");
+                endpoints.MapHub<TradeHub>("/hubs/trade");
             });
         }
     }
