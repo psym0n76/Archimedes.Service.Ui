@@ -71,7 +71,7 @@ namespace Archimedes.Service.Ui
 
         public Task Update(HealthMonitorDto health)
         {
-            _logger.LogInformation($"Update received from one of the strategy apis {health}");
+            //_logger.LogInformation($"Update received from one of the strategy apis {health}");
             _context.Clients.All.SendAsync("Update", health);
             return Task.CompletedTask;
         }
